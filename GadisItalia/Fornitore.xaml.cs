@@ -23,6 +23,9 @@ namespace GadisItalia
             InitializeComponent();
             _supplier = supplier;
             DataContext = _supplier;
+            SupplierDetailsLabel.Content = $"Fornitore {_supplier.FornitoreID} - {_supplier.RagioneSocialePerDocumenti}";
+            UltimaModificaLabel.Content = _supplier.DataUltAgg;
+            DaLabel.Content = _supplier.Responsabile;
         }
     }
 }

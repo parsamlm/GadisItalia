@@ -7,18 +7,26 @@
         mc:Ignorable="d"
         Title="GadisOffice V.5.0" Height="600" Width="1000"
         Loaded="Window_Loaded">
+    <Window.Resources>
+        <local:BooleanToStringConverter x:Key="BooleanToStringConverter"/>
+    </Window.Resources>
     <Grid>
         <Label Content="Elenco dei fornitori" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="auto" Width="auto" RenderTransformOrigin="2.991,1.271" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
         <ListView Name="SupplierList" Grid.Column="1" Margin="10,50,10,10" SelectionChanged="SupplierList_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding FornitoreID}"/>
-                    <GridViewColumn Header="Nome" DisplayMemberBinding="{Binding RagioneSociale}"/>
-                    <GridViewColumn Header="Responsabile" DisplayMemberBinding="{Binding Responsabile}"/>
-                    <GridViewColumn Header="Sitoweb" DisplayMemberBinding="{Binding Sitoweb}"/>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding FornitoreID}" Width="Auto"/>
+                    <GridViewColumn Header="Ragione Sociale" DisplayMemberBinding="{Binding RagioneSociale}" Width="Auto"/>
+                    <GridViewColumn Header="Responsabile" DisplayMemberBinding="{Binding Responsabile}" Width="Auto"/>
+                    <GridViewColumn Header="Indirizzo" DisplayMemberBinding="{Binding Indirizzo}" Width="Auto"/>
+                    <GridViewColumn Header="Localita" DisplayMemberBinding="{Binding LocalitaNonConforme}" Width="Auto"/>
+                    <GridViewColumn Header="CAP" DisplayMemberBinding="{Binding CodicePostale}" Width="Auto"/>
+                    <GridViewColumn Header="Tipo" DisplayMemberBinding="{Binding CodTipoFornitoreGo2}" Width="Auto"/>
+                    <GridViewColumn Header="Lamentele" DisplayMemberBinding="{Binding HaLamentele, Converter={StaticResource BooleanToStringConverter}}" Width="Auto"/>
+                    <GridViewColumn Header="Destinazione" DisplayMemberBinding="{Binding ComuneDestinazioneID}" Width="Auto"/>
+                    <GridViewColumn Header="Attivo" DisplayMemberBinding="{Binding FlagAttivo, Converter={StaticResource BooleanToStringConverter}}" Width="Auto"/>
                 </GridView>
             </ListView.View>
         </ListView>
     </Grid>
 </Window>
-
