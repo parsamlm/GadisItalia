@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GadisItalia
 {
@@ -13,14 +8,14 @@ namespace GadisItalia
     {
         [Key]
         public int FornitoreID { get; set; }
-        public string? RagioneSociale { get; set; }
+        public string RagioneSociale { get; set; }
         public string? RagioneSocialePerDocumenti { get; set; }
         public string? NomeInternoFornitore { get; set; }
         public string? Responsabile { get; set; }
         public string? CodiceFiscale { get; set; }
         public string? PartitaIva { get; set; }
         public string? Indirizzo { get; set; }
-        public int ComuneDestinazioneID { get; set; }
+        public int? ComuneDestinazioneID { get; set; }
         public int? LocalitaDestinazioneID { get; set; }
         public string? CodicePostale { get; set; }
         public string? Sitoweb { get; set; }

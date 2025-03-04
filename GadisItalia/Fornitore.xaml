@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GadisItalia"
         mc:Ignorable="d"
-        Title="Fornitore" Height="600" Width="1000">
+        Title="Fornitore" Height="600" Width="1000"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -32,20 +33,69 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Selezione Lingua" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"/>
-                        <ComboBox Width="150" Margin="5,0,0,0" HorizontalAlignment="Left" Grid.Column="1">
-                            <ComboBoxItem Content="Italiano"/>
-                            <ComboBoxItem Content="Inglese"/>
-                            <ComboBoxItem Content="Francese"/>
-                            <ComboBoxItem Content="Tedesco"/>
+                        <ComboBox Name="SelezioneLinguaComboBox" Width="150" Margin="5,0,0,0" HorizontalAlignment="Left" Grid.Column="1" SelectedIndex="0">
+                            <ComboBoxItem Content="Italiano" Tag="it"/>
+                            <ComboBoxItem Content="Inglese" Tag="en"/>
+                            <ComboBoxItem Content="Francese" Tag="fr"/>
+                            <ComboBoxItem Content="Tedesco" Tag="de"/>
                         </ComboBox>
-                        <Label Content="Esporta:" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="2" Margin="5,0,0,0" FontWeight="Bold"/>
-                        <Button Content="Word" Width="auto" Height="auto" Margin="5,0,0,0" Padding="5 0 5 0" HorizontalAlignment="Right" Grid.Column="3" FontSize="10"/>
-                        <Button Content="PDF" Width="auto" Height="auto" Margin="5,0,0,0" Padding="5 0 5 0" HorizontalAlignment="Right" Grid.Column="4" FontSize="10"/>
+                        <Button Width="auto" Height="auto" Margin="5,0,0,0" Padding="5 0 5 0" HorizontalAlignment="Right" Grid.Column="2" FontSize="10" Click="ExportAsPDF_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Export as PDF" VerticalAlignment="Center" FontSize="12"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Width="auto" Height="auto" Margin="5,0,0,0" Padding="5 0 5 0" HorizontalAlignment="Right" Grid.Column="3" FontSize="10" Click="Print_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Resources/printer.png" Width="16" Height="16" Margin="0,0,5,0"/>
+                                <TextBlock Text="Print" VerticalAlignment="Center" FontSize="12"/>
+                            </StackPanel>
+                        </Button>
                     </Grid>
-                    <TextBlock Text="Anteprima Content" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1"/>
+                    <StackPanel Grid.Row="1" Margin="10">
+                        <TextBlock Name="RagioneSociale" Text="{Binding RagioneSociale}" Margin="0,0,0,5" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                        <Label Name="SupplierInformation_Label" Content="Informazioni sul fornitore" FontWeight="Bold" FontSize="14" Margin="0 5 0 0"/>
+                        <Separator Margin="0,0,0,0"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                            <Label Name="Responsabile_Label" Content="Responsabile:" FontWeight="Black"/>
+                            <TextBlock Name="Responsabile" Text="{Binding Responsabile}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                            <Label Name="RagioneSociale_Label" Content="Ragione Sociale:" FontWeight="Black"/>
+                            <TextBlock Name="RagioneSocialePerDocumenti" Text="{Binding RagioneSocialePerDocumenti}" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <Label Name="Localizzazione_Label" Content="Localizzazione" FontWeight="Bold" FontSize="14" Margin="0 5 0 0"/>
+                        <Separator Margin="0,0,0,0"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                            <Label Name="ComuneDestinazione_Label" Content="Comune Destinazione:" FontWeight="Black"/>
+                            <TextBlock Name="ComuneDestinazione" Text="{Binding ComuneDestinazione}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                            <Label Name="Indirizzo_Label" Content="Indirizzo:" FontWeight="Black"/>
+                            <TextBlock Name="Indirizzo" Text="{Binding Indirizzo}" VerticalAlignment="Center" Margin="0 0 5 0"/>
+                            <TextBlock Name="CodicePostale" Text="{Binding CodicePostale}" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <Label Name="Caratteristiche_Label" Content="Caratteristiche" FontWeight="Bold" FontSize="14" Margin="0 5 0 0"/>
+                        <Separator Margin="0,0,0,0"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                            <Label Name="Descrizione_Label" Content="Descrizione:" FontWeight="Black"/>
+                            <TextBlock Name="Descrizione" Text="{Binding Descrizione}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                            <Label Name="DescrizioneLogistica_Label" Content="Descrizione Logistica:" FontWeight="Black"/>
+                            <TextBlock Name="DescrizioneLogistica" Text="{Binding DescrizioneLogistica}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                            <Label Name="CodiceTipoFornitore_Label" Content="Codice Tipo Fornitore:" FontWeight="Black"/>
+                            <TextBlock Name="CodTipoFornitore" Text="{Binding CodTipoFornitore}" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                    </StackPanel>
+                    <Image Source="Resources/your_image.png" Width="100" Height="100" Margin="10,10,10,10" Grid.Row="2"/>
                 </Grid>
             </TabItem>
         </TabControl>
