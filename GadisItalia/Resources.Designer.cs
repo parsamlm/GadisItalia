@@ -61,6 +61,15 @@ namespace GadisItalia {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Altre Caratteristiche.
+        /// </summary>
+        internal static string AltreCaratteristiche {
+            get {
+                return ResourceManager.GetString("AltreCaratteristiche", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Caratteristiche.
         /// </summary>
         internal static string Caratteristiche {

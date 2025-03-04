@@ -51,6 +51,7 @@ namespace GadisItalia
                 using (var context = new GadisDbContext())
                 {
                     ComuneDestinazione = context.Database.SqlQuery<string>($"SELECT Nome FROM Destinazioni WHERE DestinazioneID = {supplier.ComuneDestinazioneID}").FirstOrDefault();
+                    Characteristics = context.Database.SqlQuery<SupplierCharacteristics>($"SELECT * FROM CaratteristicheFornitore WHERE FornitoreID = {supplier.FornitoreID}").FirstOrDefault();
                 }
             }
             Descrizione = supplier.Descrizione.ToString();

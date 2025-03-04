@@ -7,7 +7,7 @@ namespace GadisItalia
     public class SupplierCharacteristics
     {
         [Key]
-        public int FornitoreID { get; set; }
+        public int FornitoreID { get; }
         public bool IsTargetLusso {  get; set; }
         public bool IsTargetAlto { get; set; }
         public bool IsTargetMedioAlto { get; set; }

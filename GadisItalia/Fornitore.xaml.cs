@@ -29,17 +29,38 @@ namespace GadisItalia
             RagioneSocialePerDocumenti.Text = _supplierPreviewModel.RagioneSocialePerDocumenti;
             Responsabile.Text = _supplierPreviewModel.Responsabile;
             SitoWeb.Text = _supplierPreviewModel.Sitoweb;
-            string url = _supplierPreviewModel.Sitoweb;
-            if(url != null)
+            var url = _supplierPreviewModel.Sitoweb;
+            if (url != null)
             {
-                SitoWeb_HL.NavigateUri = new Uri(url);   
+                SitoWeb_HL.NavigateUri = new Uri(url);
             }
             Indirizzo.Text = _supplierPreviewModel.Indirizzo;
             CodicePostale.Text = _supplierPreviewModel.CodicePostale;
             ComuneDestinazione.Text = _supplierPreviewModel.ComuneDestinazione;
             CodTipoFornitore.Text = _supplierPreviewModel.CodTipoFornitore;
-            Descrizione.Text = _supplierPreviewModel.Descrizione.ToString();
-            DescrizioneLogistica.Text = _supplierPreviewModel.DescrizioneLogistica.ToString();
+            Descrizione.Text = _supplierPreviewModel.Descrizione?.ToString();
+            DescrizioneLogistica.Text = _supplierPreviewModel.DescrizioneLogistica?.ToString();
+
+            if (_supplierPreviewModel.Characteristics != null)
+            {
+                var characteristics = _supplierPreviewModel.Characteristics;
+                var characteristicsList = new List<string>();
+
+                if (characteristics.IsTargetLusso) characteristicsList.Add("Target Lusso");
+                if (characteristics.IsTargetAlto) characteristicsList.Add("Target Alto");
+                if (characteristics.IsTargetMedioAlto) characteristicsList.Add("Target Medio Alto");
+                if (characteristics.IsTargetMedio) characteristicsList.Add("Target Medio");
+                if (characteristics.IsTargetMedioBasso) characteristicsList.Add("Target Medio Basso");
+                if (characteristics.isAccettaAnimali) characteristicsList.Add("Accetta Animali");
+                if (characteristics.isAccessibileDisabili) characteristicsList.Add("Accessibile Disabili");
+                if (characteristics.IsFornitoreAlberghiero) characteristicsList.Add("Fornitore Alberghiero");
+                if (characteristics.IsLocalePubblico) characteristicsList.Add("Locale Pubblico");
+                if (characteristics.IsGuida) characteristicsList.Add("Guida");
+                if (characteristics.IsFornitoreTrasporti) characteristicsList.Add("Fornitore Trasporti");
+                if (characteristics.IsAltroTipoForn) characteristicsList.Add("Altro Tipo Forn");
+
+                AltreCaratteristiche.Text = string.Join(", ", characteristicsList);
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -67,6 +88,7 @@ namespace GadisItalia
             Descrizione_Label.Content = $"{_resourceManager.GetString("Descrizione")}: ";
             DescrizioneLogistica_Label.Content = $"{_resourceManager.GetString("DescrizioneLogistica")}: ";
             CodiceTipoFornitore_Label.Content = $"{_resourceManager.GetString("CodTipoFornitore")}: ";
+            AltreCaratteristiche_Label.Content = $"{_resourceManager.GetString("AltreCaratteristiche")}: ";
         }
 
         private void LanguageChanged(object sender, SelectionChangedEventArgs e)
@@ -80,6 +102,24 @@ namespace GadisItalia
 
         private List<(string Header, List<string> Lines)> PrepareDocumentData()
         {
+            var characteristicsList = new List<string>();
+            if (_supplierPreviewModel.Characteristics != null)
+            {
+                var characteristics = _supplierPreviewModel.Characteristics;
+                if (characteristics.IsTargetLusso) characteristicsList.Add("Target Lusso");
+                if (characteristics.IsTargetAlto) characteristicsList.Add("Target Alto");
+                if (characteristics.IsTargetMedioAlto) characteristicsList.Add("Target Medio Alto");
+                if (characteristics.IsTargetMedio) characteristicsList.Add("Target Medio");
+                if (characteristics.IsTargetMedioBasso) characteristicsList.Add("Target Medio Basso");
+                if (characteristics.isAccettaAnimali) characteristicsList.Add("Accetta Animali");
+                if (characteristics.isAccessibileDisabili) characteristicsList.Add("Accessibile Disabili");
+                if (characteristics.IsFornitoreAlberghiero) characteristicsList.Add("Fornitore Alberghiero");
+                if (characteristics.IsLocalePubblico) characteristicsList.Add("Locale Pubblico");
+                if (characteristics.IsGuida) characteristicsList.Add("Guida");
+                if (characteristics.IsFornitoreTrasporti) characteristicsList.Add("Fornitore Trasporti");
+                if (characteristics.IsAltroTipoForn) characteristicsList.Add("Altro Tipo Forn");
+            }
+
             var sections = Nota_TextBox.Text.Length > 0 ? new List<(string Header, List<string> Lines)>
             {
                 ("InformazioniSulFornitore", new List<string>
@@ -97,7 +137,8 @@ namespace GadisItalia
                 {
                     $"{_resourceManager.GetString("Descrizione")}: {_supplierPreviewModel.Descrizione}",
                     $"{_resourceManager.GetString("DescrizioneLogistica")}: {_supplierPreviewModel.DescrizioneLogistica}",
-                    $"{_resourceManager.GetString("CodTipoFornitore")}: {_supplierPreviewModel.CodTipoFornitore}"
+                    $"{_resourceManager.GetString("CodTipoFornitore")}: {_supplierPreviewModel.CodTipoFornitore}",
+                    $"{_resourceManager.GetString("AltreCaratteristiche")}: {string.Join(", ", characteristicsList)}"
                 }),
                 ("Extra", new List<string>
                 {
@@ -120,7 +161,8 @@ namespace GadisItalia
                 {
                     $"{_resourceManager.GetString("Descrizione")}: {_supplierPreviewModel.Descrizione}",
                     $"{_resourceManager.GetString("DescrizioneLogistica")}: {_supplierPreviewModel.DescrizioneLogistica}",
-                    $"{_resourceManager.GetString("CodTipoFornitore")}: {_supplierPreviewModel.CodTipoFornitore}"
+                    $"{_resourceManager.GetString("CodTipoFornitore")}: {_supplierPreviewModel.CodTipoFornitore}",
+                    $"{_resourceManager.GetString("AltreCaratteristiche")}: {string.Join(", ", characteristicsList)}"
                 })
             };
 
