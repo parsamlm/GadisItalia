@@ -9,6 +9,7 @@ namespace GadisItalia
         public string RagioneSociale { get; set; }
         public string? RagioneSocialePerDocumenti { get; set; }
         public string? Responsabile { get; set; }
+        public string? Sitoweb { get; set; }
 
         public int? LocalitaDestinazioneID { get; set; }
         public string ComuneDestinazione { get; set; }
@@ -28,6 +29,18 @@ namespace GadisItalia
             RagioneSociale = supplier.RagioneSociale;
             RagioneSocialePerDocumenti = supplier.RagioneSocialePerDocumenti;
             Responsabile = supplier.Responsabile;
+            string url = supplier.Sitoweb;
+            if (url != null)
+            {
+                if (url.Contains("https://") || url.Contains("http://"))
+                {
+                    Sitoweb = url;
+                }
+                else
+                {
+                    Sitoweb = "http://" + url;
+                }
+            }
             LocalitaDestinazioneID = supplier.LocalitaDestinazioneID;
             CodicePostale = $"(Codice Postale: {supplier.CodicePostale})";
             Indirizzo = supplier.Indirizzo;

@@ -115,6 +115,15 @@ namespace GadisItalia {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extra.
+        /// </summary>
+        internal static string Extra {
+            get {
+                return ResourceManager.GetString("Extra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Flag Attivo.
         /// </summary>
         internal static string FlagAttivo {
@@ -178,6 +187,15 @@ namespace GadisItalia {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nota.
+        /// </summary>
+        internal static string Nota {
+            get {
+                return ResourceManager.GetString("Nota", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ragione Sociale.
         /// </summary>
         internal static string RagioneSociale {
@@ -192,6 +210,15 @@ namespace GadisItalia {
         internal static string Responsabile {
             get {
                 return ResourceManager.GetString("Responsabile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sitoweb.
+        /// </summary>
+        internal static string Sitoweb {
+            get {
+                return ResourceManager.GetString("Sitoweb", resourceCulture);
             }
         }
     }

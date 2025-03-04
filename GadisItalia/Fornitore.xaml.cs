@@ -1,11 +1,14 @@
 ﻿using GadisItalia;
+using Microsoft.IdentityModel.Tokens;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
+using System.Diagnostics;
 using System.IO;
 using System.Resources;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Navigation;
 
 namespace GadisItalia
 {
@@ -21,12 +24,16 @@ namespace GadisItalia
             DataContext = _supplierPreviewModel;
             SetLanguage(language);
 
-            DaLabel.Content = _supplierPreviewModel.Responsabile;
-
             SupplierDetailsLabel.Content = $"Fornitore {_supplierPreviewModel.FornitoreID} - {_supplierPreviewModel.RagioneSocialePerDocumenti}";
             RagioneSociale.Text = _supplierPreviewModel.RagioneSociale;
             RagioneSocialePerDocumenti.Text = _supplierPreviewModel.RagioneSocialePerDocumenti;
             Responsabile.Text = _supplierPreviewModel.Responsabile;
+            SitoWeb.Text = _supplierPreviewModel.Sitoweb;
+            string url = _supplierPreviewModel.Sitoweb;
+            if(url != null)
+            {
+                SitoWeb_HL.NavigateUri = new Uri(url);   
+            }
             Indirizzo.Text = _supplierPreviewModel.Indirizzo;
             CodicePostale.Text = _supplierPreviewModel.CodicePostale;
             ComuneDestinazione.Text = _supplierPreviewModel.ComuneDestinazione;
@@ -51,6 +58,7 @@ namespace GadisItalia
             _resourceManager = new ResourceManager("GadisItalia.Resources", typeof(Fornitore).Assembly);
             SupplierInformation_Label.Content = _resourceManager.GetString("InformazioniSulFornitore");
             Responsabile_Label.Content = $"{_resourceManager.GetString("Responsabile")}: ";
+            SitoWeb_Label.Content = $"{_resourceManager.GetString("Sitoweb")}: ";
             RagioneSociale_Label.Content = $"{_resourceManager.GetString("RagioneSociale")}: ";
             Localizzazione_Label.Content = _resourceManager.GetString("Localizzazione");
             ComuneDestinazione_Label.Content = $"{_resourceManager.GetString("ComuneDestinazione")}: ";
@@ -72,12 +80,36 @@ namespace GadisItalia
 
         private List<(string Header, List<string> Lines)> PrepareDocumentData()
         {
-            var sections = new List<(string Header, List<string> Lines)>
+            var sections = Nota_TextBox.Text.Length > 0 ? new List<(string Header, List<string> Lines)>
             {
                 ("InformazioniSulFornitore", new List<string>
                 {
                     $"{_resourceManager.GetString("Responsabile")}: {_supplierPreviewModel.Responsabile}",
-                    $"{_resourceManager.GetString("RagioneSociale")}: {_supplierPreviewModel.RagioneSociale}"
+                    $"{_resourceManager.GetString("RagioneSociale")}: {_supplierPreviewModel.RagioneSociale}",
+                    $"{_resourceManager.GetString("Sitoweb")}: {_supplierPreviewModel.Sitoweb}"
+                }),
+                ("Localizzazione", new List<string>
+                {
+                    $"{_resourceManager.GetString("ComuneDestinazione")}: {_supplierPreviewModel.ComuneDestinazione}",
+                    $"{_resourceManager.GetString("Indirizzo")}: {_supplierPreviewModel.Indirizzo}"
+                }),
+                ("Caratteristiche", new List<string>
+                {
+                    $"{_resourceManager.GetString("Descrizione")}: {_supplierPreviewModel.Descrizione}",
+                    $"{_resourceManager.GetString("DescrizioneLogistica")}: {_supplierPreviewModel.DescrizioneLogistica}",
+                    $"{_resourceManager.GetString("CodTipoFornitore")}: {_supplierPreviewModel.CodTipoFornitore}"
+                }),
+                ("Extra", new List<string>
+                {
+                    $"{_resourceManager.GetString("Nota")}: {Nota_TextBox.Text}",
+                }),
+            } : new List<(string Header, List<string> Lines)>
+            {
+                ("InformazioniSulFornitore", new List<string>
+                {
+                    $"{_resourceManager.GetString("Responsabile")}: {_supplierPreviewModel.Responsabile}",
+                    $"{_resourceManager.GetString("RagioneSociale")}: {_supplierPreviewModel.RagioneSociale}",
+                    $"{_resourceManager.GetString("Sitoweb")}: {_supplierPreviewModel.Sitoweb}"
                 }),
                 ("Localizzazione", new List<string>
                 {
@@ -180,10 +212,6 @@ namespace GadisItalia
                 ColumnWidth = double.PositiveInfinity // Ensure content spans the full width
             };
 
-            // Set the page size to A4
-            doc.PageWidth = 210 * 3.7795275591; // A4 width in pixels (1 inch = 96 pixels, 1 mm = 3.7795275591 pixels)
-            doc.PageHeight = 297 * 3.7795275591; // A4 height in pixels
-
             // Add header
             AddParagraph(doc, _supplierPreviewModel.RagioneSocialePerDocumenti ?? _supplierPreviewModel.RagioneSociale, 18, FontWeights.Bold, TextAlignment.Center);
 
@@ -240,6 +268,12 @@ namespace GadisItalia
             };
             container.Child = line;
             doc.Blocks.Add(container);
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+            e.Handled = true;
         }
 
     }

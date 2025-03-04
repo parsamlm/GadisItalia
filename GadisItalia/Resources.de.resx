@@ -135,6 +135,9 @@
   <data name="DescrizioneLogistica" xml:space="preserve">
     <value>Logistikbeschreibung</value>
   </data>
+  <data name="Extra" xml:space="preserve">
+    <value>Extra</value>
+  </data>
   <data name="FlagAttivo" xml:space="preserve">
     <value>Flagge aktiv</value>
   </data>
@@ -156,10 +159,16 @@
   <data name="Localizzazione" xml:space="preserve">
     <value>Standort</value>
   </data>
+  <data name="Nota" xml:space="preserve">
+    <value>Notiz</value>
+  </data>
   <data name="RagioneSociale" xml:space="preserve">
     <value>Name der Firma</value>
   </data>
   <data name="Responsabile" xml:space="preserve">
     <value>Verantwortlich</value>
+  </data>
+  <data name="Sitoweb" xml:space="preserve">
+    <value>Webseite</value>
   </data>
 </root>
