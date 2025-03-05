@@ -153,6 +153,9 @@
   <data name="ImmaginePreferita" xml:space="preserve">
     <value>ImmaginePreferita</value>
   </data>
+  <data name="Immagini" xml:space="preserve">
+    <value>Immagini</value>
+  </data>
   <data name="Indirizzo" xml:space="preserve">
     <value>Indirizzo</value>
   </data>

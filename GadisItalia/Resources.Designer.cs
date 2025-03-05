@@ -169,6 +169,15 @@ namespace GadisItalia {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Immagini.
+        /// </summary>
+        internal static string Immagini {
+            get {
+                return ResourceManager.GetString("Immagini", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Indirizzo.
         /// </summary>
         internal static string Indirizzo {

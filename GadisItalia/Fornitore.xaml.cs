@@ -8,6 +8,7 @@ using System.Resources;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
 namespace GadisItalia
@@ -40,6 +41,10 @@ namespace GadisItalia
             CodTipoFornitore.Text = _supplierPreviewModel.CodTipoFornitore;
             Descrizione.Text = _supplierPreviewModel.Descrizione?.ToString();
             DescrizioneLogistica.Text = _supplierPreviewModel.DescrizioneLogistica?.ToString();
+            if(_supplierPreviewModel.FavoriteImage != null)
+            {
+                ImmaginePreferita.Source = _supplierPreviewModel.FavoriteImage;
+            }
 
             if (_supplierPreviewModel.Characteristics != null)
             {
@@ -77,6 +82,8 @@ namespace GadisItalia
         {
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);
             _resourceManager = new ResourceManager("GadisItalia.Resources", typeof(Fornitore).Assembly);
+            _supplierPreviewModel.UpdateDescrizione(language);
+            Descrizione.Text = _supplierPreviewModel.Descrizione?.ToString();
             SupplierInformation_Label.Content = _resourceManager.GetString("InformazioniSulFornitore");
             Responsabile_Label.Content = $"{_resourceManager.GetString("Responsabile")}: ";
             SitoWeb_Label.Content = $"{_resourceManager.GetString("Sitoweb")}: ";
@@ -89,6 +96,7 @@ namespace GadisItalia
             DescrizioneLogistica_Label.Content = $"{_resourceManager.GetString("DescrizioneLogistica")}: ";
             CodiceTipoFornitore_Label.Content = $"{_resourceManager.GetString("CodTipoFornitore")}: ";
             AltreCaratteristiche_Label.Content = $"{_resourceManager.GetString("AltreCaratteristiche")}: ";
+            Immagini_Label.Content = $"{_resourceManager.GetString("Immagini")}";
         }
 
         private void LanguageChanged(object sender, SelectionChangedEventArgs e)
@@ -144,6 +152,7 @@ namespace GadisItalia
                 {
                     $"{_resourceManager.GetString("Nota")}: {Nota_TextBox.Text}",
                 }),
+                ("Immagini", new List<string>{}),
             } : new List<(string Header, List<string> Lines)>
             {
                 ("InformazioniSulFornitore", new List<string>
@@ -163,7 +172,8 @@ namespace GadisItalia
                     $"{_resourceManager.GetString("DescrizioneLogistica")}: {_supplierPreviewModel.DescrizioneLogistica}",
                     $"{_resourceManager.GetString("CodTipoFornitore")}: {_supplierPreviewModel.CodTipoFornitore}",
                     $"{_resourceManager.GetString("AltreCaratteristiche")}: {string.Join(", ", characteristicsList)}"
-                })
+                }),
+                ("Immagini", new List<string>{}),
             };
 
             return sections;
@@ -191,6 +201,20 @@ namespace GadisItalia
             foreach (var section in sections)
             {
                 DrawSection(gfx, section.Header, section.Lines.ToArray(), boldFont, font, ref yPoint, page.Width.Point);
+            }
+
+            // Draw image if available
+            if (_supplierPreviewModel.FavoriteImage != null)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    BitmapEncoder encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(_supplierPreviewModel.FavoriteImage));
+                    encoder.Save(ms);
+                    XImage xImage = XImage.FromStream(ms);
+                    gfx.DrawImage(xImage, 40, yPoint, 128, 128);
+                    yPoint += 110;
+                }
             }
 
             // Save the document
@@ -264,6 +288,21 @@ namespace GadisItalia
                 AddSection(doc, section.Header, section.Lines.ToArray());
             }
 
+            // Add image if available
+            if (_supplierPreviewModel.FavoriteImage != null)
+            {
+                Image image = new Image
+                {
+                    Source = _supplierPreviewModel.FavoriteImage,
+                    Width = 128,
+                    Height = 128,
+                    Margin = new Thickness(0, 0, 0, 0),
+                    HorizontalAlignment = HorizontalAlignment.Left
+                };
+                BlockUIContainer container = new BlockUIContainer(image);
+                doc.Blocks.Add(container);
+            }
+
             // Print the document
             PrintDialog printDialog = new PrintDialog();
             printDialog.PrintTicket.PageMediaSize = new System.Printing.PageMediaSize(System.Printing.PageMediaSizeName.ISOA4);
@@ -273,6 +312,7 @@ namespace GadisItalia
                 printDialog.PrintDocument(idpSource.DocumentPaginator, "Printing FlowDocument");
             }
         }
+
 
         private void AddParagraph(FlowDocument doc, string text, double fontSize, FontWeight fontWeight, TextAlignment alignment)
         {
