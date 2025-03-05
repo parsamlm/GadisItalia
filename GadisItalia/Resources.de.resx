@@ -174,6 +174,9 @@
   <data name="Responsabile" xml:space="preserve">
     <value>Verantwortlich</value>
   </data>
+  <data name="Riferimenti" xml:space="preserve">
+    <value>Verweise</value>
+  </data>
   <data name="Sitoweb" xml:space="preserve">
     <value>Webseite</value>
   </data>

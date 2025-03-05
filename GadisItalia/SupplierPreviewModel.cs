@@ -25,6 +25,7 @@ namespace GadisItalia
         public bool HaLamentele { get; set; }
         public string? Descrizione { get; set; }
         public string? DescrizioneLogistica { get; set; }
+        public string[]? Riferimenti { get; set; }
         public BitmapImage? FavoriteImage { get; set; }
         public SupplierCharacteristics? Characteristics { get; }
         private long? descrizioneID { get; set; }
@@ -59,7 +60,7 @@ namespace GadisItalia
                 {
                     ComuneDestinazione = context.Database.SqlQuery<string>($"SELECT Nome FROM Destinazioni WHERE DestinazioneID = {supplier.ComuneDestinazioneID}").FirstOrDefault();
                     Characteristics = context.Database.SqlQuery<SupplierCharacteristics>($"SELECT * FROM CaratteristicheFornitore WHERE FornitoreID = {supplier.FornitoreID}").FirstOrDefault();
-
+                    Riferimenti = context.Database.SqlQuery<string>($"SELECT EMAIL FROM RiferimentiFornitore WHERE FornitoreID = {supplier.FornitoreID}").ToArray();
                     if (descrizioneID != null)
                     {
                         Descrizione = context.Database.SqlQuery<string>($"SELECT testo FROM StringheLingue WHERE idStringa = {descrizioneID} AND idLingua = 1").FirstOrDefault()?.Trim();

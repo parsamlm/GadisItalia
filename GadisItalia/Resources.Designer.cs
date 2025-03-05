@@ -232,6 +232,15 @@ namespace GadisItalia {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Riferimenti.
+        /// </summary>
+        internal static string Riferimenti {
+            get {
+                return ResourceManager.GetString("Riferimenti", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sitoweb.
         /// </summary>
         internal static string Sitoweb {

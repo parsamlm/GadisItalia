@@ -66,6 +66,12 @@ namespace GadisItalia
 
                 AltreCaratteristiche.Text = string.Join(", ", characteristicsList);
             }
+
+            if (_supplierPreviewModel.Riferimenti != null)
+            {
+                Riferimenti.Text = string.Join(", ", _supplierPreviewModel.Riferimenti);
+            }
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -87,6 +93,7 @@ namespace GadisItalia
             SupplierInformation_Label.Content = _resourceManager.GetString("InformazioniSulFornitore");
             Responsabile_Label.Content = $"{_resourceManager.GetString("Responsabile")}: ";
             SitoWeb_Label.Content = $"{_resourceManager.GetString("Sitoweb")}: ";
+            Riferimenti_Label.Content = $"{_resourceManager.GetString("Riferimenti")}: ";
             RagioneSociale_Label.Content = $"{_resourceManager.GetString("RagioneSociale")}: ";
             Localizzazione_Label.Content = _resourceManager.GetString("Localizzazione");
             ComuneDestinazione_Label.Content = $"{_resourceManager.GetString("ComuneDestinazione")}: ";
@@ -139,7 +146,8 @@ namespace GadisItalia
                 ("Localizzazione", new List<string>
                 {
                     $"{_resourceManager.GetString("ComuneDestinazione")}: {_supplierPreviewModel.ComuneDestinazione}",
-                    $"{_resourceManager.GetString("Indirizzo")}: {_supplierPreviewModel.Indirizzo}"
+                    $"{_resourceManager.GetString("Indirizzo")}: {_supplierPreviewModel.Indirizzo}",
+                    $"{_resourceManager.GetString("Riferimenti")}: {string.Join(", ", _supplierPreviewModel.Riferimenti)}",
                 }),
                 ("Caratteristiche", new List<string>
                 {
@@ -164,7 +172,8 @@ namespace GadisItalia
                 ("Localizzazione", new List<string>
                 {
                     $"{_resourceManager.GetString("ComuneDestinazione")}: {_supplierPreviewModel.ComuneDestinazione}",
-                    $"{_resourceManager.GetString("Indirizzo")}: {_supplierPreviewModel.Indirizzo}"
+                    $"{_resourceManager.GetString("Indirizzo")}: {_supplierPreviewModel.Indirizzo}",
+                    $"{_resourceManager.GetString("Riferimenti")}: {string.Join(", ", _supplierPreviewModel.Riferimenti)}",
                 }),
                 ("Caratteristiche", new List<string>
                 {
