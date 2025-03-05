@@ -59,70 +59,71 @@
                         <Label Content="Nota:" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"/>
                         <TextBox Name="Nota_TextBox" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Stretch"/>
                     </Grid>
-                    <StackPanel Grid.Row="3" Margin="10">
-                        <TextBlock Name="RagioneSocialePerDocumenti" Text="{Binding RagioneSocialePerDocumenti}" Margin="0,0,0,5" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ScrollViewer Grid.Row="3" Margin="10" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <TextBlock Name="RagioneSocialePerDocumenti" Text="{Binding RagioneSocialePerDocumenti}" Margin="0,0,0,5" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                        <Label Name="SupplierInformation_Label" Content="Informazioni sul fornitore" FontWeight="Bold" FontSize="14" Margin="0 5 0 0"/>
-                        <Separator Margin="0,0,0,0"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <Label Name="Responsabile_Label" Content="Responsabile:" FontWeight="Black"/>
-                            <TextBlock Name="Responsabile" Text="{Binding Responsabile}" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <Label Name="RagioneSociale_Label" Content="Ragione Sociale:" FontWeight="Black"/>
-                            <TextBlock Name="RagioneSociale" Text="{Binding RagioneSociale}" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <Label Name="SitoWeb_Label" Content="Sito Web:" FontWeight="Black"/>
-                            <TextBlock VerticalAlignment="Center">
-                                <Hyperlink Name="SitoWeb_HL" NavigateUri="{Binding SitoWeb}" RequestNavigate="Hyperlink_RequestNavigate">
-                                <TextBlock Name="SitoWeb" Text="{Binding SitoWeb}"/>
-                                </Hyperlink>
-                            </TextBlock>
-                        </StackPanel>
+                            <Label Name="SupplierInformation_Label" Content="Informazioni sul fornitore" FontWeight="Bold" FontSize="14" Margin="0 5 0 0"/>
+                            <Separator Margin="0,0,0,0"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                                <Label Name="Responsabile_Label" Content="Responsabile:" FontWeight="Black"/>
+                                <TextBlock Name="Responsabile" Text="{Binding Responsabile}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                                <Label Name="RagioneSociale_Label" Content="Ragione Sociale:" FontWeight="Black"/>
+                                <TextBlock Name="RagioneSociale" Text="{Binding RagioneSociale}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                                <Label Name="SitoWeb_Label" Content="Sito Web:" FontWeight="Black"/>
+                                <TextBlock VerticalAlignment="Center">
+                <Hyperlink Name="SitoWeb_HL" NavigateUri="{Binding SitoWeb}" RequestNavigate="Hyperlink_RequestNavigate">
+                <TextBlock Name="SitoWeb" Text="{Binding SitoWeb}"/>
+                </Hyperlink>
+            </TextBlock>
+                            </StackPanel>
 
-                        <Label Name="Localizzazione_Label" Content="Localizzazione" FontWeight="Bold" FontSize="14" Margin="0 5 0 0"/>
-                        <Separator Margin="0,0,0,0"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <Label Name="ComuneDestinazione_Label" Content="Comune Destinazione:" FontWeight="Black"/>
-                            <TextBlock Name="ComuneDestinazione" Text="{Binding ComuneDestinazione}" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <Label Name="Indirizzo_Label" Content="Indirizzo:" FontWeight="Black"/>
-                            <TextBlock Name="Indirizzo" Text="{Binding Indirizzo}" VerticalAlignment="Center" Margin="0 0 5 0"/>
-                            <TextBlock Name="CodicePostale" Text="{Binding CodicePostale}" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <Label Name="Riferimenti_Label" Content="Riferimenti:" FontWeight="Black"/>
-                            <TextBlock Name="Riferimenti" Text="{Binding Riferimenti}" VerticalAlignment="Center" Margin="0 0 5 0"/>
-                        </StackPanel>
+                            <Label Name="Localizzazione_Label" Content="Localizzazione" FontWeight="Bold" FontSize="14" Margin="0 5 0 0"/>
+                            <Separator Margin="0,0,0,0"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                                <Label Name="ComuneDestinazione_Label" Content="Comune Destinazione:" FontWeight="Black"/>
+                                <TextBlock Name="ComuneDestinazione" Text="{Binding ComuneDestinazione}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                                <Label Name="Indirizzo_Label" Content="Indirizzo:" FontWeight="Black"/>
+                                <TextBlock Name="Indirizzo" Text="{Binding Indirizzo}" VerticalAlignment="Center" Margin="0 0 5 0"/>
+                                <TextBlock Name="CodicePostale" Text="{Binding CodicePostale}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                                <Label Name="Riferimenti_Label" Content="Riferimenti:" FontWeight="Black"/>
+                                <TextBlock Name="Riferimenti" Text="{Binding Riferimenti}" VerticalAlignment="Center" Margin="0 0 5 0"/>
+                            </StackPanel>
 
-                        <Label Name="Caratteristiche_Label" Content="Caratteristiche" FontWeight="Bold" FontSize="14" Margin="0 5 0 0"/>
-                        <Separator Margin="0,0,0,0"/>
-                        <StackPanel Orientation="Vertical" Margin="0,0,0,0">
-                            <Label Name="Descrizione_Label" Content="Descrizione:" FontWeight="Black"/>
-                            <TextBlock Name="Descrizione" Text="{Binding Descrizione}" VerticalAlignment="Center" TextWrapping="Wrap" Margin="5 0 0 5" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <Label Name="DescrizioneLogistica_Label" Content="Descrizione Logistica:" FontWeight="Black"/>
-                            <TextBlock Name="DescrizioneLogistica" Text="{Binding DescrizioneLogistica}" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <Label Name="CodiceTipoFornitore_Label" Content="Codice Tipo Fornitore:" FontWeight="Black"/>
-                            <TextBlock Name="CodTipoFornitore" Text="{Binding CodTipoFornitore}" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <Label Name="AltreCaratteristiche_Label" Content="Altre Caratteristiche:" FontWeight="Black"/>
-                            <TextBlock Name="AltreCaratteristiche" Text="{Binding CodTipoFornitore}" VerticalAlignment="Center"/>
-                        </StackPanel>
+                            <Label Name="Caratteristiche_Label" Content="Caratteristiche" FontWeight="Bold" FontSize="14" Margin="0 5 0 0"/>
+                            <Separator Margin="0,0,0,0"/>
+                            <StackPanel Orientation="Vertical" Margin="0,0,0,0">
+                                <Label Name="Descrizione_Label" Content="Descrizione:" FontWeight="Black"/>
+                                <TextBlock Name="Descrizione" Text="{Binding Descrizione}" VerticalAlignment="Center" TextWrapping="Wrap" Margin="5 0 0 5" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                                <Label Name="DescrizioneLogistica_Label" Content="Descrizione Logistica:" FontWeight="Black"/>
+                                <TextBlock Name="DescrizioneLogistica" Text="{Binding DescrizioneLogistica}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                                <Label Name="CodiceTipoFornitore_Label" Content="Codice Tipo Fornitore:" FontWeight="Black"/>
+                                <TextBlock Name="CodTipoFornitore" Text="{Binding CodTipoFornitore}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                                <Label Name="AltreCaratteristiche_Label" Content="Altre Caratteristiche:" FontWeight="Black"/>
+                                <TextBlock Name="AltreCaratteristiche" Text="{Binding CodTipoFornitore}" VerticalAlignment="Center"/>
+                            </StackPanel>
 
-                        <Label Name="Immagini_Label" Content="Immagini" FontWeight="Bold" FontSize="14" Margin="0 5 0 0"/>
-                        <Separator Margin="0,0,0,0"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <Image Name="ImmaginePreferita" Source="{Binding FavoriteImage}" Width="128" Height="128" Margin="5 0 5 0"/>
+                            <Label Name="Immagini_Label" Content="Immagini" FontWeight="Bold" FontSize="14" Margin="0 5 0 0"/>
+                            <Separator Margin="0,0,0,0"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                                <Image Name="ImmaginePreferita" Source="{Binding FavoriteImage}" Width="128" Height="128" Margin="5 0 5 0"/>
+                            </StackPanel>
                         </StackPanel>
-
-                    </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
         </TabControl>
