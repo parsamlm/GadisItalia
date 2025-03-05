@@ -45,7 +45,6 @@
                         </Button>
                         <Button Width="auto" Height="auto" Margin="5,0,0,0" Padding="5 0 5 0" HorizontalAlignment="Right" Grid.Column="3" FontSize="10" Click="Print_Click">
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="Resources/printer.png" Width="16" Height="16" Margin="0,0,5,0"/>
                                 <TextBlock Text="Print" VerticalAlignment="Center" FontSize="12"/>
                             </StackPanel>
                         </Button>

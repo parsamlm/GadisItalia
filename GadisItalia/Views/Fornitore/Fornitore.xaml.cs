@@ -1,12 +1,10 @@
-﻿using GadisItalia;
-using Microsoft.IdentityModel.Tokens;
+﻿using GadisItalia.Models;
+using GadisItalia.Utils;
 using PdfSharp.Drawing;
-using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
 using System.Diagnostics;
 using System.IO;
 using System.Resources;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -26,31 +24,48 @@ namespace GadisItalia
             _supplierPreviewModel = supplierPreviewModel;
             DataContext = _supplierPreviewModel;
             SetLanguage(language);
+            InitializeSupplierDetails();
+        }
 
+        private void InitializeSupplierDetails()
+        {
             SupplierDetailsLabel.Content = $"Fornitore {_supplierPreviewModel.FornitoreID} - {_supplierPreviewModel.RagioneSocialePerDocumenti}";
             RagioneSociale.Text = _supplierPreviewModel.RagioneSociale;
             RagioneSocialePerDocumenti.Text = _supplierPreviewModel.RagioneSocialePerDocumenti;
             Responsabile.Text = _supplierPreviewModel.Responsabile;
             SitoWeb.Text = _supplierPreviewModel.Sitoweb;
-            var url = _supplierPreviewModel.Sitoweb;
-            if (url != null)
-            {
-                SitoWeb_HL.NavigateUri = new Uri(url);
-            }
+            SetWebsiteLink(_supplierPreviewModel.Sitoweb);
             Indirizzo.Text = _supplierPreviewModel.Indirizzo;
             CodicePostale.Text = _supplierPreviewModel.CodicePostale;
             ComuneDestinazione.Text = _supplierPreviewModel.ComuneDestinazione;
             CodTipoFornitore.Text = _supplierPreviewModel.CodTipoFornitore;
             Descrizione.Text = _supplierPreviewModel.Descrizione?.ToString();
             DescrizioneLogistica.Text = _supplierPreviewModel.DescrizioneLogistica?.ToString();
-            if(_supplierPreviewModel.FavoriteImage != null)
-            {
-                ImmaginePreferita.Source = _supplierPreviewModel.FavoriteImage;
-            }
+            SetFavoriteImage(_supplierPreviewModel.FavoriteImage);
+            SetCharacteristics(_supplierPreviewModel.Characteristics);
+            SetReferences(_supplierPreviewModel.Riferimenti);
+        }
 
-            if (_supplierPreviewModel.Characteristics != null)
+        private void SetWebsiteLink(string url)
+        {
+            if (url != null)
             {
-                var characteristics = _supplierPreviewModel.Characteristics;
+                SitoWeb_HL.NavigateUri = new Uri(url);
+            }
+        }
+
+        private void SetFavoriteImage(BitmapImage favoriteImage)
+        {
+            if (favoriteImage != null)
+            {
+                ImmaginePreferita.Source = favoriteImage;
+            }
+        }
+
+        private void SetCharacteristics(SupplierCharacteristics characteristics)
+        {
+            if (characteristics != null)
+            {
                 var characteristicsList = new List<string>();
 
                 if (characteristics.IsTargetLusso) characteristicsList.Add("Target Lusso");
@@ -68,17 +83,18 @@ namespace GadisItalia
 
                 AltreCaratteristiche.Text = string.Join(", ", characteristicsList);
             }
+        }
 
-            if (_supplierPreviewModel.Riferimenti != null)
+        private void SetReferences(string[] references)
+        {
+            if (references != null)
             {
-                Riferimenti.Text = string.Join(", ", _supplierPreviewModel.Riferimenti);
+                Riferimenti.Text = string.Join(", ", references);
             }
-
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // Subscribe to the SelectionChanged event of the ComboBox
             var languageComboBox = FindName("SelezioneLinguaComboBox") as ComboBox;
             if (languageComboBox != null)
             {
@@ -91,6 +107,11 @@ namespace GadisItalia
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);
             _resourceManager = new ResourceManager("GadisItalia.Resources", typeof(Fornitore).Assembly);
             _supplierPreviewModel.UpdateDescrizione(language);
+            UpdateLabels();
+        }
+
+        private void UpdateLabels()
+        {
             Descrizione.Text = _supplierPreviewModel.Descrizione?.ToString();
             SupplierInformation_Label.Content = _resourceManager.GetString("InformazioniSulFornitore");
             Responsabile_Label.Content = $"{_resourceManager.GetString("Responsabile")}: ";
@@ -138,54 +159,54 @@ namespace GadisItalia
             }
 
             var sections = Nota_TextBox.Text.Length > 0 ? new List<(string Header, List<string> Lines)>
-    {
-        ("InformazioniSulFornitore", new List<string>
-        {
-            $"{_resourceManager.GetString("Responsabile")}: {_supplierPreviewModel.Responsabile}",
-            $"{_resourceManager.GetString("RagioneSociale")}: {_supplierPreviewModel.RagioneSociale}",
-            $"{_resourceManager.GetString("Sitoweb")}: {_supplierPreviewModel.Sitoweb}"
-        }),
-        ("Localizzazione", new List<string>
-        {
-            $"{_resourceManager.GetString("ComuneDestinazione")}: {_supplierPreviewModel.ComuneDestinazione}",
-            $"{_resourceManager.GetString("Indirizzo")}: {_supplierPreviewModel.Indirizzo}",
-            $"{_resourceManager.GetString("Riferimenti")}: {string.Join(", ", _supplierPreviewModel.Riferimenti)}",
-        }),
-        ("Caratteristiche", new List<string>
-        {
-            $"{_resourceManager.GetString("Descrizione")}: {_supplierPreviewModel.Descrizione}",
-            $"{_resourceManager.GetString("DescrizioneLogistica")}: {_supplierPreviewModel.DescrizioneLogistica}",
-            $"{_resourceManager.GetString("CodTipoFornitore")}: {_supplierPreviewModel.CodTipoFornitore}",
-            $"{_resourceManager.GetString("AltreCaratteristiche")}: {string.Join(", ", characteristicsList)}"
-        }),
-        ("Extra", new List<string>
-        {
-            $"{_resourceManager.GetString("Nota")}: {Nota_TextBox.Text}",
-        }),
-        ("Immagini", new List<string>{}),
-    } : new List<(string Header, List<string> Lines)>
-    {
-        ("InformazioniSulFornitore", new List<string>
-        {
-            $"{_resourceManager.GetString("Responsabile")}: {_supplierPreviewModel.Responsabile}",
-            $"{_resourceManager.GetString("RagioneSociale")}: {_supplierPreviewModel.RagioneSociale}",
-            $"{_resourceManager.GetString("Sitoweb")}: {_supplierPreviewModel.Sitoweb}"
-        }),
-        ("Localizzazione", new List<string>
-        {
-            $"{_resourceManager.GetString("ComuneDestinazione")}: {_supplierPreviewModel.ComuneDestinazione}",
-            $"{_resourceManager.GetString("Indirizzo")}: {_supplierPreviewModel.Indirizzo}",
-            $"{_resourceManager.GetString("Riferimenti")}: {string.Join(", ", _supplierPreviewModel.Riferimenti)}",
-        }),
-        ("Caratteristiche", new List<string>
-        {
-            $"{_resourceManager.GetString("Descrizione")}: {_supplierPreviewModel.Descrizione}",
-            $"{_resourceManager.GetString("DescrizioneLogistica")}: {_supplierPreviewModel.DescrizioneLogistica}",
-            $"{_resourceManager.GetString("CodTipoFornitore")}: {_supplierPreviewModel.CodTipoFornitore}",
-            $"{_resourceManager.GetString("AltreCaratteristiche")}: {string.Join(", ", characteristicsList)}"
-        }),
-        ("Immagini", new List<string>{}),
-    };
+            {
+                ("InformazioniSulFornitore", new List<string>
+                {
+                    $"{_resourceManager.GetString("Responsabile")}: {_supplierPreviewModel.Responsabile}",
+                    $"{_resourceManager.GetString("RagioneSociale")}: {_supplierPreviewModel.RagioneSociale}",
+                    $"{_resourceManager.GetString("Sitoweb")}: {_supplierPreviewModel.Sitoweb}"
+                }),
+                ("Localizzazione", new List<string>
+                {
+                    $"{_resourceManager.GetString("ComuneDestinazione")}: {_supplierPreviewModel.ComuneDestinazione}",
+                    $"{_resourceManager.GetString("Indirizzo")}: {_supplierPreviewModel.Indirizzo}",
+                    $"{_resourceManager.GetString("Riferimenti")}: {string.Join(", ", _supplierPreviewModel.Riferimenti)}",
+                }),
+                ("Caratteristiche", new List<string>
+                {
+                    $"{_resourceManager.GetString("Descrizione")}: {_supplierPreviewModel.Descrizione}",
+                    $"{_resourceManager.GetString("DescrizioneLogistica")}: {_supplierPreviewModel.DescrizioneLogistica}",
+                    $"{_resourceManager.GetString("CodTipoFornitore")}: {_supplierPreviewModel.CodTipoFornitore}",
+                    $"{_resourceManager.GetString("AltreCaratteristiche")}: {string.Join(", ", characteristicsList)}"
+                }),
+                ("Extra", new List<string>
+                {
+                    $"{_resourceManager.GetString("Nota")}: {Nota_TextBox.Text}",
+                }),
+                ("Immagini", new List<string>{}),
+            } : new List<(string Header, List<string> Lines)>
+            {
+                ("InformazioniSulFornitore", new List<string>
+                {
+                    $"{_resourceManager.GetString("Responsabile")}: {_supplierPreviewModel.Responsabile}",
+                    $"{_resourceManager.GetString("RagioneSociale")}: {_supplierPreviewModel.RagioneSociale}",
+                    $"{_resourceManager.GetString("Sitoweb")}: {_supplierPreviewModel.Sitoweb}"
+                }),
+                ("Localizzazione", new List<string>
+                {
+                    $"{_resourceManager.GetString("ComuneDestinazione")}: {_supplierPreviewModel.ComuneDestinazione}",
+                    $"{_resourceManager.GetString("Indirizzo")}: {_supplierPreviewModel.Indirizzo}",
+                    $"{_resourceManager.GetString("Riferimenti")}: {string.Join(", ", _supplierPreviewModel.Riferimenti)}",
+                }),
+                ("Caratteristiche", new List<string>
+                {
+                    $"{_resourceManager.GetString("Descrizione")}: {_supplierPreviewModel.Descrizione}",
+                    $"{_resourceManager.GetString("DescrizioneLogistica")}: {_supplierPreviewModel.DescrizioneLogistica}",
+                    $"{_resourceManager.GetString("CodTipoFornitore")}: {_supplierPreviewModel.CodTipoFornitore}",
+                    $"{_resourceManager.GetString("AltreCaratteristiche")}: {string.Join(", ", characteristicsList)}"
+                }),
+                ("Immagini", new List<string>{}),
+            };
 
             return sections;
         }
@@ -204,14 +225,14 @@ namespace GadisItalia
             double yPoint = 40;
 
             // Draw header
-            DrawString(gfx, _supplierPreviewModel.RagioneSocialePerDocumenti ?? _supplierPreviewModel.RagioneSociale, new XFont("Verdana", 14, XFontStyleEx.Bold), XBrushes.Black, (page.Width.Point - gfx.MeasureString(_supplierPreviewModel.RagioneSocialePerDocumenti ?? _supplierPreviewModel.RagioneSociale, new XFont("Verdana", 14, XFontStyleEx.Bold)).Width) / 2, yPoint, page.Width.Point);
+            DocumentUtils.DrawString(gfx, _supplierPreviewModel.RagioneSocialePerDocumenti ?? _supplierPreviewModel.RagioneSociale, new XFont("Verdana", 14, XFontStyleEx.Bold), XBrushes.Black, (page.Width.Point - gfx.MeasureString(_supplierPreviewModel.RagioneSocialePerDocumenti ?? _supplierPreviewModel.RagioneSociale, new XFont("Verdana", 14, XFontStyleEx.Bold)).Width) / 2, yPoint, page.Width.Point);
             yPoint += 40;
 
             // Draw sections
             var sections = PrepareDocumentData();
             foreach (var section in sections)
             {
-                DrawSection(gfx, section.Header, section.Lines.ToArray(), boldFont, font, ref yPoint, page.Width.Point);
+                DocumentUtils.DrawSection(gfx, section.Header, section.Lines.ToArray(), boldFont, font, ref yPoint, page.Width.Point, _resourceManager);
             }
 
             // Draw image if available
@@ -233,35 +254,6 @@ namespace GadisItalia
             document.Save(filePath);
 
             MessageBox.Show($"PDF saved at: {filePath}");
-        }
-
-        private void DrawString(XGraphics gfx, string text, XFont font, XBrush brush, double x, double y, double width, XStringFormat format = null)
-        {
-            gfx.DrawString(text, font, brush, new XRect(x, y, width, 0), format ?? XStringFormats.TopLeft);
-        }
-
-        private void DrawSection(XGraphics gfx, string headerKey, string[] lines, XFont headerFont, XFont font, ref double yPoint, double pageWidth)
-        {
-            DrawSectionHeader(gfx, _resourceManager.GetString(headerKey), headerFont, ref yPoint, pageWidth);
-            foreach (var line in lines)
-            {
-                var lineHeight = gfx.MeasureString(line, font).Height;
-                var wrappedLines = SplitTextIntoLines(line, 105); // Adjust the maxLineLength as needed
-                foreach (var wrappedLine in wrappedLines)
-                {
-                    DrawString(gfx, wrappedLine, font, XBrushes.Black, 40, yPoint, pageWidth - 80);
-                    yPoint += lineHeight + 5;
-                }
-            }
-            yPoint += 10;
-        }
-
-        private void DrawSectionHeader(XGraphics gfx, string header, XFont font, ref double yPoint, double pageWidth)
-        {
-            DrawString(gfx, header, font, XBrushes.Black, 40, yPoint, pageWidth);
-            yPoint += 20;
-            gfx.DrawLine(XPens.Black, 40, yPoint, pageWidth - 40, yPoint);
-            yPoint += 10;
         }
 
         private void ExportAsPDF_Click(object sender, RoutedEventArgs e)
@@ -295,13 +287,13 @@ namespace GadisItalia
             };
 
             // Add header
-            AddParagraph(doc, _supplierPreviewModel.RagioneSocialePerDocumenti ?? _supplierPreviewModel.RagioneSociale, 18, FontWeights.Bold, TextAlignment.Center);
+            DocumentUtils.AddParagraph(doc, _supplierPreviewModel.RagioneSocialePerDocumenti ?? _supplierPreviewModel.RagioneSociale, 18, FontWeights.Bold, TextAlignment.Center);
 
             // Add sections
             var sections = PrepareDocumentData();
             foreach (var section in sections)
             {
-                AddSection(doc, section.Header, section.Lines.ToArray());
+                DocumentUtils.AddSection(doc, section.Header, section.Lines.ToArray(), _resourceManager);
             }
 
             // Add image if available
@@ -329,81 +321,10 @@ namespace GadisItalia
             }
         }
 
-
-        private void AddParagraph(FlowDocument doc, string text, double fontSize, FontWeight fontWeight, TextAlignment alignment)
-        {
-            Paragraph paragraph = new Paragraph(new Run(text))
-            {
-                FontSize = fontSize,
-                FontWeight = fontWeight,
-                TextAlignment = alignment,
-                Margin = new Thickness(0, 10, 0, 10)
-            };
-            doc.Blocks.Add(paragraph);
-        }
-
-        private void AddSection(FlowDocument doc, string headerKey, string[] lines)
-        {
-            AddParagraph(doc, _resourceManager.GetString(headerKey), 16, FontWeights.Bold, TextAlignment.Left);
-            AddHorizontalDivider(doc);
-            foreach (var line in lines)
-            {
-                AddParagraph(doc, line, 14, FontWeights.Normal, TextAlignment.Left);
-            }
-        }
-
-        private void AddHorizontalDivider(FlowDocument doc)
-        {
-            BlockUIContainer container = new BlockUIContainer();
-            System.Windows.Shapes.Line line = new System.Windows.Shapes.Line
-            {
-                X1 = 0,
-                X2 = 1,
-                Stretch = System.Windows.Media.Stretch.Fill,
-                Stroke = System.Windows.Media.Brushes.Black,
-                StrokeThickness = 1,
-                Margin = new Thickness(0, 0, 0, 5)
-            };
-            container.Child = line;
-            doc.Blocks.Add(container);
-        }
-
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
             e.Handled = true;
         }
-
-        private List<string> SplitTextIntoLines(string text, int maxLineLength)
-        {
-            var lines = new List<string>();
-            var words = text.Split(' ');
-
-            var currentLine = new StringBuilder();
-            foreach (var word in words)
-            {
-                if (currentLine.Length + word.Length + 1 > maxLineLength)
-                {
-                    lines.Add(currentLine.ToString());
-                    currentLine.Clear();
-                }
-
-                if (currentLine.Length > 0)
-                {
-                    currentLine.Append(" ");
-                }
-
-                currentLine.Append(word);
-            }
-
-            if (currentLine.Length > 0)
-            {
-                lines.Add(currentLine.ToString());
-            }
-
-            return lines;
-        }
-
-
     }
 }

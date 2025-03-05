@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GadisItalia
+namespace GadisItalia.Models
 {
     [Table("Fornitori")]
     public class Supplier
     {
         [Key]
         public int FornitoreID { get; set; }
-        public string RagioneSociale { get; set; }
+        public required string RagioneSociale { get; set; }
         public string? RagioneSocialePerDocumenti { get; set; }
         public string? NomeInternoFornitore { get; set; }
         public string? Responsabile { get; set; }

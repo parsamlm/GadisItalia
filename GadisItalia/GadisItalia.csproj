@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <None Remove="Resources\05355b12-c36b-4b16-a607-9327a1e2af0f.c10.jpg" />
-    <None Remove="Resources\printer.png" />
     <None Remove="Resources\Rarita.jpg" />
   </ItemGroup>
 
@@ -22,11 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Resources\05355b12-c36b-4b16-a607-9327a1e2af0f.c10.jpg">
+    <Content Include="Resources\Images\05355b12-c36b-4b16-a607-9327a1e2af0f.c10.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Resources\printer.png" />
-    <Content Include="Resources\Rarita.jpg">
+    <Content Include="Resources\Images\Rarita.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -40,10 +38,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources.de.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\Fornitore\Fornitore.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Page>
+    <Page Update="MainWindow.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Page>
   </ItemGroup>
 
 </Project>

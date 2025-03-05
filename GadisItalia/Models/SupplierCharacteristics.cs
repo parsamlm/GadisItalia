@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GadisItalia
+namespace GadisItalia.Models
 {
     [Table("CaratteristicheFornitore")]
     public class SupplierCharacteristics

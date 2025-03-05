@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using GadisItalia.Models;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace GadisItalia;
